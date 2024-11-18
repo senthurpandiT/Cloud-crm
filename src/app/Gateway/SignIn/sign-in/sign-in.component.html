@@ -1,0 +1,136 @@
+<div class="section bg-white d-flex align-items-lg-center justify-content-lg-center reg-login-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-last order-lg-first">
+        <figure class="w-100">
+          <img src="assets/img/product-manager-two-color.svg" class="img-fluid" alt="...">
+        </figure>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-5 offset-lg-1 order-first order-lg-last">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+          <div class="authentication-inner">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center mb-4">
+              <a class="app-brand-link">
+                <span class="app-brand-logo demo">
+                  <img src="assets/img/SeeSafeIT-logo.svg" loading="lazy">
+                </span>
+              </a>
+            </div>
+            <!-- /Logo -->
+
+            <h4 class="mb-4 text-center">
+              {{ router === '/login' ? LOGIN?.LOGIN?.Login_name : 'Login Your Account' }}
+            </h4>
+
+
+            <!-- <app-header></app-header> -->
+
+
+            <form id="formAuthentication" class="mb-4" [formGroup]="LoginForm"
+              (ngSubmit)="router === '/login' ? loginSubmit() : adminLoginSubmit()">
+              <div *ngIf="isTrue">
+                <h6 class="head6 text-center">
+                  {{  LOGIN?.DETAILS?.Your_email_id_is_not_verified ? LOGIN?.DETAILS?.Your_email_id_is_not_verified : "Your email id is not verified"}}!
+                </h6>
+                <p class="otpverify">{{ LOGIN?.DETAILS?.Please ? LOGIN?.DETAILS?.Please : 'Please'}} <span class="click"
+                    (click)="resend(this.loginRes);">{{LOGIN?.DETAILS?.click_here ? LOGIN?.DETAILS?.click_here : 'click here'}}</span>
+                  {{LOGIN?.DETAILS?.to_send_the_OTP_to_your_email_account_to_verify_your_email ? LOGIN?.DETAILS?.to_send_the_OTP_to_your_email_account_to_verify_your_email : 'to send the OTP to your email account to verify your email' }}
+                </p>
+              </div>
+              <div *ngIf="isActivate">
+                <h6 class="head6 text-center">
+                  {{LOGIN?.DETAILS?.Activation_is_pending ? LOGIN?.DETAILS?.Activation_is_pending : 'Activation is pending'}}!
+                </h6>
+                <p class="otpverify">{{ LOGIN?.DETAILS?.Please ? LOGIN?.DETAILS?.Please : 'Please'}} <span class="click"
+                    (click)="activateFn(this.loginRes.business_account?.id);">{{LOGIN?.DETAILS?.click_here ? LOGIN?.DETAILS?.click_here : 'click here'}}</span>
+                  {{LOGIN?.DETAILS?.to_submit_the_activation_request_to_the_admin_promptly ? LOGIN?.DETAILS?.to_submit_the_activation_request_to_the_admin_promptly : 'to submit the activation request to the admin promptly'}}
+                </p>
+              </div>
+              <div class="mb-3">
+                <div class="position-relative">
+                  <label class="form-label">
+                    {{ router === '/login' ? LOGIN?.LOGIN?.Email : 'Email' }}
+                  </label>
+                  <input type="email" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['emailId'].errors }" formControlName="emailId"
+                    name="email" placeholder="Email" (input)="trimSpaces($event)">
+                  <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback position-absolute start-0">
+                    <div *ngIf="f['emailId'].errors['required']">
+                      {{ router === '/login' ? LOGIN?.LOGIN?.Email_req : 'Email is required' }}
+                    </div>
+                    <div *ngIf="f['emailId'].errors['email']">
+                      {{ router === '/login' ? LOGIN?.LOGIN?.Email_invalid : 'Invalid email address' }}
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="form-password-toggle mb-4">
+
+                <div class="position-relative">
+                  <label class="form-label">{{ router === '/login' ? LOGIN?.LOGIN?.Password : 'Password' }}
+                  </label>
+                  <div class="input-group input-group-merge">
+                    <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password" />
+                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback position-absolute start-0">
+                      <div *ngIf="f['password'].errors['required']">
+                        {{ router === '/login' ? LOGIN?.LOGIN?.Password_req : 'Password is required' }}
+                      </div>
+                    </div>
+                    <span class="input-group-text cursor-pointer" (click)="togglePasswordVisibility()">
+                      <i *ngIf="passwordHidden" class="fa-regular fa-eye"></i>
+                      <i *ngIf="!passwordHidden" class="fa-regular fa-eye-slash"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3" *ngIf="router === '/login'">
+                <a routerLink="/login/forgot-password"
+                  class="fw-semibold dark-blue fs-7">{{LOGIN?.LOGIN?.Forgot_Pass}}</a>
+              </div>
+              <!-- <button [disabled]="isLoading" type="submit" *ngIf="router.url === '/login'"
+                  class="btn btn-dark-blue btn-block w-100">
+                  <span>{{LOGIN?.LOGIN?.Login}}</span>
+                  <div *ngIf="isLoading" role="status">
+                    <span class="spinner-border spinner-border-sm text-light"></span>
+                  </div>
+                </button> -->
+              <!-- <button class="buttonload">
+                  Loading  <i class="fa fa-circle-o-notch fa-spin"></i>
+                 </button> -->
+              <button class="btn btn-dark-blue position-relative w-100" id="loaderButton" [disabled]="isLoading"
+                type="submit" *ngIf="router === '/login'">
+                <span style="position: relative;">
+                  {{LOGIN?.LOGIN?.Login}}
+                  <i class="fa-solid fa-circle-notch fa-spin loader-icon" *ngIf="isLoading" style="color: white;"></i>
+                </span>
+              </button>
+
+
+              <button [disabled]="isLoading" type="submit" *ngIf="router === '/admin'"
+                class="btn btn-dark-blue btn-block w-100">
+                <span style="position: relative;">
+                  Admin Login
+                  <i class="fa-solid fa-circle-notch fa-spin loader-icon" *ngIf="isLoading" style="color: white;"></i>
+                </span>
+
+              </button>
+            </form>
+
+            <p class="text-center fs-7" *ngIf="router === '/login'">
+              <span>{{LOGIN?.LOGIN?.Dont_acc}}</span>&nbsp;
+              <a routerLink="/signup" class="fw-semibold dark-blue">{{LOGIN?.LOGIN?.Create_Acc}}</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
