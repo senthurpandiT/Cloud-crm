@@ -1,3 +1,18 @@
+@defer(when selectedLang) {
+<div class="dropdown lang-dropdown lang-btn-drop">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+    <img loading="lazy" src="{{ selectedLang?.flag }}" alt="{{ selectedLang }}" width="20" height="20"> &nbsp;
+    {{ selectedLang?.language }}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+    <a *ngFor="let language of languageList" class="dropdown-item " (click)="langugaeSelected(language)">
+      <img loading="lazy" src="{{ language.flag }}" width="20" height="20">
+      {{ language.language }}
+    </a>
+  </div>
+</div>
+}
 <div class="section bg-white d-flex align-items-lg-center justify-content-lg-center reg-login-section">
   <div class="container">
     <div class="row">
@@ -27,9 +42,8 @@
             <!-- <app-header></app-header> -->
 
 
-            <form id="formAuthentication" class="mb-4" [formGroup]="LoginForm"
-              (ngSubmit)="router === '/login' ? loginSubmit() : adminLoginSubmit()">
-              <div *ngIf="isTrue">
+            <form id="formAuthentication" class="mb-4" [formGroup]="LoginForm" (ngSubmit)="loginSubmit()">
+              <!-- <div *ngIf="isTrue">
                 <h6 class="head6 text-center">
                   {{  LOGIN?.DETAILS?.Your_email_id_is_not_verified ? LOGIN?.DETAILS?.Your_email_id_is_not_verified : "Your email id is not verified"}}!
                 </h6>
@@ -46,20 +60,21 @@
                     (click)="activateFn(this.loginRes.business_account?.id);">{{LOGIN?.DETAILS?.click_here ? LOGIN?.DETAILS?.click_here : 'click here'}}</span>
                   {{LOGIN?.DETAILS?.to_submit_the_activation_request_to_the_admin_promptly ? LOGIN?.DETAILS?.to_submit_the_activation_request_to_the_admin_promptly : 'to submit the activation request to the admin promptly'}}
                 </p>
-              </div>
+              </div> -->
               <div class="mb-3">
                 <div class="position-relative">
                   <label class="form-label">
                     {{ router === '/login' ? LOGIN?.LOGIN?.Email : 'Email' }}
                   </label>
-                  <input type="email" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f['emailId'].errors }" formControlName="emailId"
-                    name="email" placeholder="Email" (input)="trimSpaces($event)">
-                  <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback position-absolute start-0">
-                    <div *ngIf="f['emailId'].errors['required']">
+                  <input type="email" class="form-control" autoComplete="webauthn"
+                    [ngClass]="{ 'is-invalid':  email.invalid && (email.dirty || email.touched) }"
+                    formControlName="emailId" name="email" placeholder="Email">
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                    class="invalid-feedback position-absolute start-0">
+                    <div *ngIf="email.errors?.['required']">
                       {{ router === '/login' ? LOGIN?.LOGIN?.Email_req : 'Email is required' }}
                     </div>
-                    <div *ngIf="f['emailId'].errors['email']">
+                    <div *ngIf="email.errors?.['email']">
                       {{ router === '/login' ? LOGIN?.LOGIN?.Email_invalid : 'Invalid email address' }}
                     </div>
                   </div>
@@ -74,12 +89,14 @@
                   </label>
                   <div class="input-group input-group-merge">
                     <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control"
-                      [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" formControlName="password"
-                      name="password"
+                      autoComplete="webauthn"
+                      [ngClass]="{ 'is-invalid': password.invalid && (password.dirty || password.touched) }"
+                      formControlName="password" name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password" />
-                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback position-absolute start-0">
-                      <div *ngIf="f['password'].errors['required']">
+                    <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                      class="invalid-feedback position-absolute start-0">
+                      <div *ngIf="password.errors?.['required']">
                         {{ router === '/login' ? LOGIN?.LOGIN?.Password_req : 'Password is required' }}
                       </div>
                     </div>
@@ -94,31 +111,13 @@
                 <a routerLink="/login/forgot-password"
                   class="fw-semibold dark-blue fs-7">{{LOGIN?.LOGIN?.Forgot_Pass}}</a>
               </div>
-              <!-- <button [disabled]="isLoading" type="submit" *ngIf="router.url === '/login'"
-                  class="btn btn-dark-blue btn-block w-100">
-                  <span>{{LOGIN?.LOGIN?.Login}}</span>
-                  <div *ngIf="isLoading" role="status">
-                    <span class="spinner-border spinner-border-sm text-light"></span>
-                  </div>
-                </button> -->
-              <!-- <button class="buttonload">
-                  Loading  <i class="fa fa-circle-o-notch fa-spin"></i>
-                 </button> -->
-              <button class="btn btn-dark-blue position-relative w-100" id="loaderButton" [disabled]="isLoading"
-                type="submit" *ngIf="router === '/login'">
-                <span style="position: relative;">
-                  {{LOGIN?.LOGIN?.Login}}
-                  <i class="fa-solid fa-circle-notch fa-spin loader-icon" *ngIf="isLoading" style="color: white;"></i>
-                </span>
-              </button>
 
-
-              <button [disabled]="isLoading" type="submit" *ngIf="router === '/admin'"
-                class="btn btn-dark-blue btn-block w-100">
-                <span style="position: relative;">
-                  Admin Login
-                  <i class="fa-solid fa-circle-notch fa-spin loader-icon" *ngIf="isLoading" style="color: white;"></i>
-                </span>
+              <button [disabled]="isLoading" type="submit" class="btn btn-dark-blue btn-block w-100"
+                *ngIf="router === '/admin'? 'Admin Login': LOGIN?.LOGIN?.Login">
+                <!-- <span style="position: relative;"> -->
+                <span *ngIf="!isLoading"> {{ router === '/admin'? 'Admin Login': LOGIN?.LOGIN?.Login}} </span>
+                <i class="fa-solid fa-circle-notch fa-spin " *ngIf="isLoading" style="color: white;"></i>
+                <!-- </span> -->
 
               </button>
             </form>
