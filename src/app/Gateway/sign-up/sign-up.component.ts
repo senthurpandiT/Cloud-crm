@@ -2,25 +2,43 @@ import { Component } from '@angular/core';
 import { CommonService } from '../../Services/common.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { LanguageComponent } from '../../Services/language.component';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ProgressBarService } from '../../Services/progress.service';
-import { ConfirmPasswordValidator } from '../../Services/validation';
+import { ConfirmPasswordValidator } from '../../Authentication/validation';
+import { LanguageComponent } from '../../Components/Shared/language.component';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, LanguageComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    LanguageComponent,
+  ],
   templateUrl: './sign-up.component.html',
-  styles: ''
+  styles: '',
 })
 export class SignUpComponent {
-  signUpForm !: FormGroup
+  signUpForm!: FormGroup;
   passwordHidden: boolean = true;
   confirmPasswordHidden: boolean = true;
 
-  constructor(public common: CommonService, private fb: FormBuilder, public progressBarService: ProgressBarService,
-  ) { }
+  constructor(
+    public common: CommonService,
+    private fb: FormBuilder,
+    public progressBarService: ProgressBarService
+  ) {}
 
   async ngOnInit() {
     this.signUpForm = this.fb.group(
@@ -46,11 +64,9 @@ export class SignUpComponent {
       },
 
       {
-        validator: ConfirmPasswordValidator('password', 'confirmPassword')
+        validator: ConfirmPasswordValidator('password', 'confirmPassword'),
       }
-
     );
-    await this.common.getLanguage();
   }
 
   get firstname() {
@@ -95,7 +111,5 @@ export class SignUpComponent {
       }
       return;
     }
-
   }
-
 }

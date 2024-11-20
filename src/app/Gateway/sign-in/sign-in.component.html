@@ -1,23 +1,13 @@
 <app-language></app-language>
-<div
-  class="section bg-white d-flex align-items-lg-center justify-content-lg-center reg-login-section"
->
+<div class="section bg-white d-flex align-items-lg-center justify-content-lg-center reg-login-section">
   <div class="container">
     <div class="row">
-      <div
-        class="col-12 col-sm-12 col-md-12 col-lg-6 order-last order-lg-first"
-      >
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-last order-lg-first">
         <figure class="w-100">
-          <img
-            src="assets/img/product-manager-two-color.svg"
-            class="img-fluid"
-            alt="..."
-          />
+          <img src="assets/img/product-manager-two-color.svg" class="img-fluid" alt="..." />
         </figure>
       </div>
-      <div
-        class="col-12 col-sm-12 col-md-12 col-lg-5 offset-lg-1 order-first order-lg-last"
-      >
+      <div class="col-12 col-sm-12 col-md-12 col-lg-5 offset-lg-1 order-first order-lg-last">
         <div class="authentication-wrapper authentication-basic container-p-y">
           <div class="authentication-inner">
             <!-- Logo -->
@@ -40,12 +30,7 @@
 
             <!-- <app-header></app-header> -->
 
-            <form
-              id="formAuthentication"
-              class="mb-4"
-              [formGroup]="LoginForm"
-              (ngSubmit)="loginSubmit()"
-            >
+            <form id="formAuthentication" class="mb-4" [formGroup]="LoginForm" (ngSubmit)="loginSubmit(LoginForm)">
               <!-- <div *ngIf="isTrue">
                 <h6 class="head6 text-center">
                   {{  LOGIN?.DETAILS?.Your_email_id_is_not_verified ? LOGIN?.DETAILS?.Your_email_id_is_not_verified : "Your email id is not verified"}}!
@@ -71,22 +56,12 @@
                       router === "/login" ? common.LOGIN?.LOGIN?.Email : "Email"
                     }}
                   </label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    autoComplete="webauthn"
-                    [ngClass]="{
+                  <input type="email" class="form-control" autoComplete="webauthn" [ngClass]="{
                       'is-invalid':
                         email.invalid && (email.dirty || email.touched)
-                    }"
-                    formControlName="emailId"
-                    name="email"
-                    placeholder="Email"
-                  />
-                  <div
-                    *ngIf="email.invalid && (email.dirty || email.touched)"
-                    class="invalid-feedback position-absolute start-0"
-                  >
+                    }" formControlName="emailId" name="email" placeholder="Email" />
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                    class="invalid-feedback position-absolute start-0">
                     <div *ngIf="email.errors?.['required']">
                       {{
                         router === "/login"
@@ -106,34 +81,24 @@
               </div>
               <div class="form-password-toggle mb-4">
                 <div class="position-relative">
-                  <label class="form-label"
-                    >{{
+                  <label class="form-label">{{
                       router === "/login"
                         ? common.LOGIN?.LOGIN?.Password
                         : "Password"
                     }}
                   </label>
                   <div class="input-group input-group-merge">
-                    <input
-                      type="{{ passwordHidden ? 'password' : 'text' }}"
-                      class="form-control"
-                      autoComplete="webauthn"
-                      [ngClass]="{
+                    <input type="{{ passwordHidden ? 'password' : 'text' }}" class="form-control"
+                      autoComplete="webauthn" [ngClass]="{
                         'is-invalid':
                           password.invalid &&
                           (password.dirty || password.touched)
-                      }"
-                      formControlName="password"
-                      name="password"
+                      }" formControlName="password" name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password"
-                    />
-                    <div
-                      *ngIf="
+                      aria-describedby="password" />
+                    <div *ngIf="
                         password.invalid && (password.dirty || password.touched)
-                      "
-                      class="invalid-feedback position-absolute start-0"
-                    >
+                      " class="invalid-feedback position-absolute start-0">
                       <div *ngIf="password.errors?.['required']">
                         {{
                           router === "/login"
@@ -142,37 +107,24 @@
                         }}
                       </div>
                     </div>
-                    <span
-                      class="input-group-text cursor-pointer"
-                      (click)="togglePasswordVisibility()"
-                    >
+                    <span class="input-group-text cursor-pointer" (click)="togglePasswordVisibility()">
                       <i *ngIf="passwordHidden" class="fa-regular fa-eye"></i>
-                      <i
-                        *ngIf="!passwordHidden"
-                        class="fa-regular fa-eye-slash"
-                      ></i>
+                      <i *ngIf="!passwordHidden" class="fa-regular fa-eye-slash"></i>
                     </span>
                   </div>
                 </div>
               </div>
               <div class="mb-3" *ngIf="router === '/login'">
-                <a
-                  routerLink="/forgotpassword"
-                  class="fw-semibold dark-blue fs-7"
-                  >{{ common.LOGIN?.LOGIN?.Forgot_Pass }}</a
-                >
+                <a routerLink="/forgotpassword"
+                  class="fw-semibold dark-blue fs-7">{{ common.LOGIN?.LOGIN?.Forgot_Pass }}</a>
               </div>
 
-              <button
-                [disabled]="(progressBarService.isLoading | async) != 0"
-                type="submit"
-                class="btn btn-dark-blue btn-block w-100"
-                *ngIf="
+              <button [disabled]="(progressBarService.isLoading | async) != 0" type="submit"
+                class="btn btn-dark-blue btn-block w-100" *ngIf="
                   router === '/admin'
                     ? 'Admin Login'
                     : common.LOGIN?.LOGIN?.Login
-                "
-              >
+                ">
                 <!-- <span style="position: relative;"> -->
                 <span *ngIf="(progressBarService.isLoading | async) == 0">
                   {{
@@ -181,18 +133,14 @@
                       : common.LOGIN?.LOGIN?.Login
                   }}
                 </span>
-                <i
-                  class="fa-solid fa-circle-notch fa-spin"
-                  *ngIf="(progressBarService.isLoading | async) != 0"
-                  style="color: white"
-                ></i>
+                <i class="fa-solid fa-circle-notch fa-spin" *ngIf="(progressBarService.isLoading | async) != 0"
+                  style="color: white"></i>
                 <!-- </span> -->
               </button>
             </form>
 
             <p class="text-center fs-7" *ngIf="router === '/login'">
-              <span>{{ common.LOGIN?.LOGIN?.Dont_acc }}</span
-              >&nbsp;
+              <span>{{ common.LOGIN?.LOGIN?.Dont_acc }}</span>&nbsp;
               <a routerLink="/signup" class="fw-semibold dark-blue">{{
                 common.LOGIN?.LOGIN?.Create_Acc
               }}</a>

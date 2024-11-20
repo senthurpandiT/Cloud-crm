@@ -8,24 +8,33 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { LanguageComponent } from '../../Services/language.component';
 import { HttpService } from '../../Services/http.service';
 import { ErrorHandlerService } from '../../Services/errorhandler.service';
-import { ApiResponse, loginInterface } from '../../Interfaces/validation-interfaces';
+import {
+  ApiResponse,
+  loginInterface,
+} from '../../Interfaces/validation-interfaces';
 import { Roles } from '../../Interfaces/roles';
 import { ProgressBarService } from '../../Services/progress.service';
 import { CommonService } from '../../Services/common.service';
+import { LanguageComponent } from '../../Components/Shared/language.component';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, LanguageComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    LanguageComponent,
+  ],
   templateUrl: './sign-in.component.html',
   styles: '',
 })
 export class SignInComponent {
   public router = window.location.pathname;
-  LoginForm!: FormGroup
+  LoginForm!: FormGroup;
   passwordHidden: boolean = true;
   isActivate: boolean = false;
   isTrue: boolean = false;
@@ -35,15 +44,13 @@ export class SignInComponent {
     private errorHandler: ErrorHandlerService,
     private route: Router,
     public progressBarService: ProgressBarService,
-    public common: CommonService,
-
-  ) { }
+    public common: CommonService
+  ) {}
   async ngOnInit() {
     this.LoginForm = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
-    await this.common.getLanguage();
   }
 
   get email() {
@@ -58,7 +65,9 @@ export class SignInComponent {
     this.passwordHidden = !this.passwordHidden;
   }
 
-  loginSubmit() {
+  loginSubmit(LoginForm: FormGroup) {
+    console.log(LoginForm);
+
     if (this.LoginForm.invalid) {
       for (const control of Object.keys(this.LoginForm.controls)) {
         this.LoginForm.controls[control].markAsTouched();
@@ -144,13 +153,12 @@ export class SignInComponent {
                 break;
             }
           }
-
         }
       },
       error: (err) => {
         this.errorHandler.handleError(err);
       },
-      complete: () => { },
+      complete: () => {},
     });
   }
 }

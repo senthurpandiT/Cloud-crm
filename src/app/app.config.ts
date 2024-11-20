@@ -7,10 +7,10 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { AppGlobals } from './app.global';
 import { ToastrModule } from 'ngx-toastr';
-import { CustomToastComponent } from './Services/custom-toast.component';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { httpInterceptor } from './Services/Interceptor/http.interceptor';
+import { httpInterceptor } from './Authentication/Interceptor/http.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { CustomToastComponent } from './Components/Shared/custom-toast.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [
