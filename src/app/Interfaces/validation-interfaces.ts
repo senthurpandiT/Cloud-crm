@@ -14,3 +14,16 @@ export interface ApiResponse {
     message?: string;
   };
 }
+
+
+export interface selectedLanguage {
+  code: string,
+  flag: string
+  id: number
+  language: string
+}
+
+export interface loginInterface {
+  emailId: string;
+  password: string;
+}

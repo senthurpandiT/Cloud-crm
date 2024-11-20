@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonService } from '../../../Services/common.service';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -9,42 +8,42 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ErrorHandlerService } from '../../../Services/errorhandler.service';
-import { ApiResponse } from '../../../Interfaces/validation-interfaces';
-import { Roles } from '../../../Interfaces/roles';
+import { LanguageComponent } from '../../Services/language.component';
+import { HttpService } from '../../Services/http.service';
+import { ErrorHandlerService } from '../../Services/errorhandler.service';
+import { ApiResponse, loginInterface } from '../../Interfaces/validation-interfaces';
+import { Roles } from '../../Interfaces/roles';
+import { ProgressBarService } from '../../Services/progress.service';
+import { CommonService } from '../../Services/common.service';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, LanguageComponent],
   templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.css',
+  styles: '',
 })
 export class SignInComponent {
-  LOGIN: any;
   public router = window.location.pathname;
-  LoginForm!: FormGroup;
+  LoginForm!: FormGroup
   passwordHidden: boolean = true;
-  isLoading: boolean = false;
-  languageList: any;
-  selectedFlag = '';
-  selectedLang: any;
   isActivate: boolean = false;
   isTrue: boolean = false;
   constructor(
-    public common: CommonService,
+    private httpService: HttpService,
     private fb: FormBuilder,
     private errorHandler: ErrorHandlerService,
-    private route: Router
-  ) {}
+    private route: Router,
+    public progressBarService: ProgressBarService,
+    public common: CommonService,
+
+  ) { }
   async ngOnInit() {
     this.LoginForm = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
-    this.languageList = await this.common.getLanguage();
-    this.selectedLang = await this.common.setLanguage(this.languageList, '');
-    this.LOGIN = await this.common.getselectLanguage(this.selectedLang?.code);
+    await this.common.getLanguage();
   }
 
   get email() {
@@ -59,12 +58,6 @@ export class SignInComponent {
     this.passwordHidden = !this.passwordHidden;
   }
 
-  async langugaeSelected(lang: any) {
-    this.selectedLang = lang;
-    localStorage.setItem('currentlangauge', JSON.stringify(lang));
-    this.LOGIN = await this.common.getselectLanguage(this.selectedLang?.code);
-  }
-
   loginSubmit() {
     if (this.LoginForm.invalid) {
       for (const control of Object.keys(this.LoginForm.controls)) {
@@ -72,13 +65,11 @@ export class SignInComponent {
       }
       return;
     }
-    this.isLoading = true;
-    let loginval = {
+    const loginval: loginInterface = {
       emailId: this.LoginForm.value.emailId,
       password: this.LoginForm.value.password,
     };
-
-    this.common.login(loginval).subscribe({
+    this.httpService.login(loginval).subscribe({
       next: (response: ApiResponse) => {
         const status: any = response.status;
         if (status.code == 200) {
@@ -154,13 +145,12 @@ export class SignInComponent {
             }
           }
 
-          this.isLoading = false;
         }
       },
       error: (err) => {
         this.errorHandler.handleError(err);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 }

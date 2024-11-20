@@ -1,0 +1,407 @@
+<app-language></app-language>
+<div
+  class="section bg-white d-flex align-items-lg-center justify-content-lg-center reg-login-section"
+>
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-6 order-last order-lg-first"
+      >
+        <figure
+          class="w-60 m-auto h-100 d-flex align-items-center justify-content-center"
+        >
+          <img src="assets/img/login-image.png" class="img-fluid" alt="..." />
+        </figure>
+      </div>
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-5 offset-lg-1 order-first order-lg-last"
+      >
+        <div class="authentication-wrapper authentication-basic container-p-y">
+          <div class="authentication-inner">
+            <div class="app-brand justify-content-center mb-4">
+              <a class="app-brand-link">
+                <span class="app-brand-logo demo">
+                  <img src="assets/img/SeeSafeIT-logo.svg" />
+                </span>
+              </a>
+            </div>
+
+            <h4 class="mb-4 text-center">
+              {{ common.LOGIN?.SIGNIN?.Register_Acc }}
+            </h4>
+            <!-- <app-header></app-header> -->
+
+            <form
+              class="mb-4"
+              [formGroup]="signUpForm"
+              (ngSubmit)="registerSubmit()"
+            >
+              <div class="row">
+                <div class="col mb-3">
+                  <div class="">
+                    <label class="form-label">{{
+                      common.LOGIN?.SIGNIN?.First_Name
+                    }}</label>
+                    <div class="position-relative">
+                      <input
+                        type="text"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            firstname.invalid &&
+                            (firstname.dirty || firstname.touched)
+                        }"
+                        formControlName="firstname"
+                        placeholder="{{ common.LOGIN?.SIGNIN?.First_Name }}"
+                      />
+                      <div
+                        *ngIf="
+                          firstname.invalid &&
+                          (firstname.dirty || firstname.touched)
+                        "
+                        class="invalid-feedback position-absolute start-0"
+                      >
+                        <div *ngIf="firstname?.errors?.['required']">
+                          {{ common.LOGIN?.SIGNIN?.First_req }}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <span class="invalid-feedback">* Feild is Empty. Please Fill the details.</span> -->
+                  </div>
+                </div>
+
+                <div class="col mb-3">
+                  <div class="">
+                    <label class="form-label">{{
+                      common.LOGIN?.SIGNIN?.Last_Name
+                    }}</label>
+
+                    <div class="position-relative">
+                      <input
+                        type="text"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            lastname.invalid &&
+                            (lastname.dirty || lastname.touched)
+                        }"
+                        formControlName="lastname"
+                        placeholder="{{ common.LOGIN?.SIGNIN?.Last_Name }}"
+                      />
+                      <div
+                        *ngIf="
+                          lastname.invalid &&
+                          (lastname.dirty || lastname.touched)
+                        "
+                        class="invalid-feedback position-absolute start-0"
+                      >
+                        <div *ngIf="lastname?.errors?.['required']">
+                          {{ common.LOGIN?.SIGNIN?.Last_req }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">
+                  {{ common.LOGIN?.SIGNIN?.Company_Name }}</label
+                >
+                <div class="position-relative">
+                  <input
+                    type="text"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid':
+                        companyname.invalid &&
+                        (companyname.dirty || companyname.touched)
+                    }"
+                    formControlName="companyname"
+                    placeholder="{{ common.LOGIN?.SIGNIN?.Enter_ComNam }}"
+                  />
+                  <div
+                    *ngIf="
+                      companyname.invalid &&
+                      (companyname.dirty || companyname.touched)
+                    "
+                    class="invalid-feedback position-absolute start-0"
+                  >
+                    <div *ngIf="companyname?.errors?.['required']">
+                      {{ common.LOGIN?.SIGNIN?.Company_req }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
+                  <div class="">
+                    <label class="form-label">{{
+                      common.LOGIN?.SIGNIN?.Email
+                    }}</label>
+                    <div class="position-relative">
+                      <input
+                        type="email"
+                        class="form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            email.invalid && (email.dirty || email.touched)
+                        }"
+                        formControlName="emailId"
+                        placeholder="{{ common.LOGIN?.SIGNIN?.Email }}"
+                        autocomplete="webauthn"
+                      />
+
+                      <div
+                        *ngIf="email.invalid && (email.dirty || email.touched)"
+                        class="invalid-feedback position-absolute start-0"
+                      >
+                        <div *ngIf="email?.errors?.['required']">
+                          {{ common.LOGIN?.SIGNIN?.Email_req }}
+                        </div>
+                        <div *ngIf="email?.errors?.['emailId']">
+                          {{ common.LOGIN?.SIGNIN?.Email_inval }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
+                  <div class="">
+                    <label class="form-label">{{
+                      common.LOGIN?.SIGNIN?.Phn_no
+                    }}</label>
+                    <div class="position-relative">
+                      <div class="wrapper">
+                        <ngx-intl-tel-input
+                          [cssClass]="'custom'"
+                          [preferredCountries]="preferredCountries"
+                          [enableAutoCountrySelect]="true"
+                          [enablePlaceholder]="true"
+                          [searchCountryFlag]="true"
+                          [searchCountryField]="[
+                            SearchCountryField.Iso2,
+                            SearchCountryField.Name
+                          ]"
+                          [selectFirstCountry]="false"
+                          [selectedCountryISO]="selectedCountryISO"
+                          [phoneValidation]="false"
+                          [separateDialCode]="separateDialCode"
+                          [numberFormat]="PhoneNumberFormat.National"
+                          name="phone"
+                          formControlName="phone"
+                          (change)="onBlurMethod($any($event.target).value)"
+                        >
+                        </ngx-intl-tel-input>
+                      </div>
+
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
+                  <div class="form-password-toggle">
+                    <label class="form-label">{{
+                      common.LOGIN?.SIGNIN?.Password
+                    }}</label>
+                    <div class="position-relative">
+                      <div class="input-group input-group-merge">
+                        <input
+                          autocomplete="webauthn"
+                          type="{{ passwordHidden ? 'password' : 'text' }}"
+                          class="form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              password.invalid &&
+                              (password.dirty || password.touched)
+                          }"
+                          formControlName="password"
+                          placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                          aria-describedby="password"
+                        />
+                        <div
+                          *ngIf="
+                            password.invalid &&
+                            (password.dirty || password.touched)
+                          "
+                          class="invalid-feedback position-absolute start-2"
+                        >
+                          <div
+                            *ngIf="
+                              password?.errors?.['required'];
+                              else minlengthCheck
+                            "
+                          >
+                            {{ common.LOGIN?.SIGNIN?.Pass_req }}
+                          </div>
+
+                          <ng-template #patternCheck>
+                            <div *ngIf="password?.errors?.['pattern']">
+                              {{ common.LOGIN?.SIGNIN?.Upper_case }}
+                            </div>
+                          </ng-template>
+                          <ng-template #minlengthCheck>
+                            <div
+                              *ngIf="
+                                password?.errors?.['minlength'];
+                                else patternCheck
+                              "
+                            >
+                              {{ common.LOGIN?.SIGNIN?.Pass_must }}
+                            </div>
+                          </ng-template>
+                        </div>
+
+                        <span
+                          class="input-group-text cursor-pointer"
+                          (click)="togglePasswordVisibility()"
+                        >
+                          <i
+                            *ngIf="passwordHidden"
+                            class="fa-regular fa-eye"
+                          ></i>
+                          <i
+                            *ngIf="!passwordHidden"
+                            class="fa-regular fa-eye-slash"
+                          ></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
+                  <div class="form-password-toggle">
+                    <label class="form-label">
+                      {{ common.LOGIN?.SIGNIN?.Confirm_pass }}</label
+                    >
+                    <div class="position-relative">
+                      <div class="input-group input-group-merge">
+                        <input
+                          type="{{
+                            confirmPasswordHidden ? 'password' : 'text'
+                          }}"
+                          class="form-control"
+                          [ngClass]="{
+                            'is-invalid':
+                              confirmPassword.invalid &&
+                              (confirmPassword.dirty || confirmPassword.touched)
+                          }"
+                          formControlName="confirmPassword"
+                          placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                          aria-describedby="password"
+                        />
+                        <div
+                          *ngIf="confirmPassword?.errors"
+                          class="invalid-feedback position-absolute start-0"
+                        >
+                          <div *ngIf="confirmPassword?.hasError('required')">
+                            {{ common.LOGIN?.SIGNIN?.Confirm_req }}
+                          </div>
+                          <div
+                            *ngIf="
+                              confirmPassword?.hasError(
+                                'confirmPasswordValidator'
+                              )
+                            "
+                          >
+                            {{ common.LOGIN?.SIGNIN?.Pass_match }}
+                          </div>
+                        </div>
+
+                        <span
+                          class="input-group-text cursor-pointer"
+                          (click)="toggleConfirmPasswordVisibility()"
+                        >
+                          <!-- <i class="fa-regular fa-eye-slash"></i> -->
+                          <i
+                            *ngIf="confirmPasswordHidden"
+                            class="fa-regular fa-eye"
+                          ></i>
+                          <i
+                            *ngIf="!confirmPasswordHidden"
+                            class="fa-regular fa-eye-slash"
+                          ></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="my-3 mb-4">
+                <div class="form-check">
+                  <div class="position-relative d-flex">
+                    <input
+                      class="form-check-input me-2"
+                      type="checkbox"
+                      [ngClass]="{
+                        'is-invalid':
+                          acceptTerms.invalid &&
+                          (acceptTerms.dirty || acceptTerms.touched)
+                      }"
+                      formControlName="acceptTerms"
+                      id="terms-conditions"
+                      name="terms"
+                    />
+
+                    <!-- <label
+                      class="form-check-label fs-7"
+                      (click)="moveToTerms()"
+                      for="terms-conditions"
+                    > -->
+                    <label class="form-check-label fs-7" for="terms-conditions">
+                      {{ common.LOGIN?.SIGNIN?.I_agree
+                      }}<a class="dark-blue fw-semibold fs-7">
+                        {{ common.LOGIN?.SIGNIN?.Privacy }}
+                      </a>
+                    </label>
+                    <div
+                      *ngIf="
+                        acceptTerms.invalid &&
+                        (acceptTerms.dirty || acceptTerms.touched)
+                      "
+                      class="invalid-feedback position-absolute start-0"
+                    >
+                      {{ common.LOGIN?.SIGNIN?.Accepts }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                [disabled]="(progressBarService.isLoading | async) != 0"
+                type="submit"
+                class="btn btn-dark-blue btn-block w-100"
+              >
+                <span
+                  style="position: relative"
+                  *ngIf="(progressBarService.isLoading | async) == 0"
+                >
+                  {{ common.LOGIN?.SIGNIN?.Register }}
+                </span>
+                <i
+                  class="fa-solid fa-circle-notch fa-spin loader-icon"
+                  *ngIf="(progressBarService.isLoading | async) != 0"
+                  style="color: white"
+                ></i>
+              </button>
+            </form>
+
+            <p class="text-center fs-7">
+              <span>{{ common.LOGIN?.SIGNIN?.Already_acc }}</span
+              >&nbsp;
+              <a class="fw-semibold dark-blue" routerLink="/login">{{
+                common.LOGIN?.SIGNIN?.Login
+              }}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

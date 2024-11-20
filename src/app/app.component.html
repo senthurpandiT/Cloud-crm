@@ -1,1 +1,5 @@
-<router-outlet />
+<app-progress-bar></app-progress-bar>
+
+<div [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet></router-outlet>
+</div>

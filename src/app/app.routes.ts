@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-import { SignInComponent } from './Gateway/SignIn/sign-in/sign-in.component';
+import { SignInComponent } from './Gateway/sign-in/sign-in.component';
+import { ForgetPasswordComponent } from './Gateway/forget-password/forget-password.component';
+import { SignUpComponent } from './Gateway/sign-up/sign-up.component';
 
 export const routes: Routes = [
   // { path: '**', redirectTo: 'login', pathMatch: 'full' },
@@ -11,10 +13,19 @@ export const routes: Routes = [
   // { path: '**', redirectTo: 'login' },
   {
     path: 'login',
-    component: SignInComponent,
+    component: SignInComponent, data:
+      { animation: 'loginPage' }
+  },
+  {
+    path: 'forgotpassword',
+    component: ForgetPasswordComponent, data: { animation: 'forgotpasswordPage' }
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent, data: { animation: 'signupPage' }
   },
   {
     path: 'admin',
-    component: SignInComponent,
+    component: SignInComponent, data: { animation: 'adminPage' }
   },
 ];
