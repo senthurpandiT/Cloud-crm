@@ -14,25 +14,36 @@ import {
 } from '@angular/animations';
 import { slideInAnimation } from './Services/transition';
 import { CommonService } from './Services/common.service';
+import { AuthService } from './Authentication/auth.service';
+import { HeaderComponent } from "./Components/layouts/header/header.component";
+import { CommonModule } from '@angular/common';
+import { SidebarComponent } from "./Components/layouts/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ProgressBarComponent],
+  imports: [RouterOutlet, ProgressBarComponent, HeaderComponent, CommonModule, SidebarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   animations: [slideInAnimation],
 })
 export class AppComponent {
+  router = window.location.pathname
   title = 'ssit2';
   constructor(
     private contexts: ChildrenOutletContexts,
-    private common: CommonService
-  ) {}
+    private common: CommonService, public authService: AuthService
+  ) { }
   async ngOnInit() {
+    console.log('App Component');
+
+    // sessionStorage.setItem('currentlangauge', 'English')
     if (this.common.languageList == undefined) {
-      await this.common.getLanguage();
+      await this.common.getAndSetLanguage();
     }
+    const selectLang = await this.common.selectedLang
+    console.log(selectLang, 'this.privilage');
+
   }
 
   getRouteAnimationData() {

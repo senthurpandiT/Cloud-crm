@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProgressBarService } from '../../Services/progress.service';
 import { RouterLink } from '@angular/router';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -10,6 +11,7 @@ import {
 } from '@angular/forms';
 import { CommonService } from '../../Services/common.service';
 import { LanguageComponent } from '../../Components/Shared/language.component';
+import { frequentVariables, routePath } from '../../Interfaces/roles';
 
 @Component({
   selector: 'app-forget-password',
@@ -20,12 +22,13 @@ import { LanguageComponent } from '../../Components/Shared/language.component';
 })
 export class ForgetPasswordComponent {
   forgotForm!: FormGroup;
-
+  logoUrl: string = frequentVariables.logoUrl
+  routerRedirect = routePath
   constructor(
     private fb: FormBuilder,
     public common: CommonService,
     public progressBarService: ProgressBarService
-  ) {}
+  ) { }
   async ngOnInit() {
     this.forgotForm = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -34,6 +37,11 @@ export class ForgetPasswordComponent {
 
   get email() {
     return this.forgotForm.get('emailId')!;
+  }
+
+  valiadateReturn(value: AbstractControl) {
+    return value.invalid &&
+      (value.dirty || value.touched)
   }
 
   forgotSubmit() {

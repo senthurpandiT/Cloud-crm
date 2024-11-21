@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommonService } from '../../Services/common.service';
 import { selectedLanguage } from '../../Interfaces/validation-interfaces';
+import { frequentVariables } from '../../Interfaces/roles';
 
 @Component({
   selector: 'app-language',
@@ -9,7 +10,7 @@ import { selectedLanguage } from '../../Interfaces/validation-interfaces';
   imports: [CommonModule],
   providers: [],
   template: `@defer(when common.selectedLang) {
-    <div class="dropdown lang-dropdown lang-btn-drop">
+    <div class="dropdown lang-dropdown ">
       <button
         class="btn btn-secondary dropdown-toggle"
         type="button"
@@ -46,11 +47,12 @@ import { selectedLanguage } from '../../Interfaces/validation-interfaces';
   styles: '',
 })
 export class LanguageComponent {
-  constructor(public common: CommonService) {}
+  constructor(public common: CommonService) {
 
+  }
   async langugaeSelected(lang: selectedLanguage) {
     this.common.selectedLang = lang;
-    localStorage.setItem('currentlangauge', JSON.stringify(lang));
-    await this.common.getselectLanguage(lang?.code);
+    localStorage.setItem(frequentVariables.declaredLslangauge, JSON.stringify(lang));
+    await this.common.translateLanguage(lang?.code);
   }
 }

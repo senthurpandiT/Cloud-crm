@@ -15,6 +15,7 @@ import {
 import { ProgressBarService } from '../../Services/progress.service';
 import { ConfirmPasswordValidator } from '../../Authentication/validation';
 import { LanguageComponent } from '../../Components/Shared/language.component';
+import { frequentVariables, routePath } from '../../Interfaces/roles';
 
 @Component({
   selector: 'app-sign-up',
@@ -33,12 +34,14 @@ export class SignUpComponent {
   signUpForm!: FormGroup;
   passwordHidden: boolean = true;
   confirmPasswordHidden: boolean = true;
+  logoUrl: string = frequentVariables.logoUrl;
+  routerRedirect = routePath
 
   constructor(
     public common: CommonService,
     private fb: FormBuilder,
     public progressBarService: ProgressBarService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.signUpForm = this.fb.group(
@@ -97,11 +100,10 @@ export class SignUpComponent {
     return this.signUpForm.get('acceptTerms')!;
   }
 
-  togglePasswordVisibility() {
-    this.passwordHidden = !this.passwordHidden;
-  }
-  toggleConfirmPasswordVisibility() {
-    this.confirmPasswordHidden = !this.confirmPasswordHidden;
+
+  valiadateReturn(value: AbstractControl) {
+    return value.invalid &&
+      (value.dirty || value.touched)
   }
 
   registerSubmit() {

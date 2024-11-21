@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -14,7 +15,7 @@ import {
   ApiResponse,
   loginInterface,
 } from '../../Interfaces/validation-interfaces';
-import { Roles } from '../../Interfaces/roles';
+import { frequentVariables, Roles, routePath } from '../../Interfaces/roles';
 import { ProgressBarService } from '../../Services/progress.service';
 import { CommonService } from '../../Services/common.service';
 import { LanguageComponent } from '../../Components/Shared/language.component';
@@ -38,6 +39,8 @@ export class SignInComponent {
   passwordHidden: boolean = true;
   isActivate: boolean = false;
   isTrue: boolean = false;
+  logoUrl: string = frequentVariables.logoUrl
+  routerRedirect = routePath
   constructor(
     private httpService: HttpService,
     private fb: FormBuilder,
@@ -45,7 +48,7 @@ export class SignInComponent {
     private route: Router,
     public progressBarService: ProgressBarService,
     public common: CommonService
-  ) {}
+  ) { }
   async ngOnInit() {
     this.LoginForm = this.fb.group({
       emailId: ['', [Validators.required, Validators.email]],
@@ -61,12 +64,12 @@ export class SignInComponent {
     return this.LoginForm.get('password')!;
   }
 
-  togglePasswordVisibility() {
-    this.passwordHidden = !this.passwordHidden;
+  valiadateReturn(value: AbstractControl) {
+    return value.invalid &&
+      (value.dirty || value.touched)
   }
 
   loginSubmit(LoginForm: FormGroup) {
-    console.log(LoginForm);
 
     if (this.LoginForm.invalid) {
       for (const control of Object.keys(this.LoginForm.controls)) {
@@ -102,8 +105,7 @@ export class SignInComponent {
                     break;
 
                   case 'Yes plan':
-                    console.log(response);
-                    // this.fn.setLocalStorage(response);
+                    this.common.setLocalStorage(response);
                     break;
 
                   case 'No plan':
@@ -158,7 +160,7 @@ export class SignInComponent {
       error: (err) => {
         this.errorHandler.handleError(err);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 }

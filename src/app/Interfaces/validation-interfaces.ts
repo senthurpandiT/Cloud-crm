@@ -15,7 +15,6 @@ export interface ApiResponse {
   };
 }
 
-
 export interface selectedLanguage {
   code: string,
   flag: string
