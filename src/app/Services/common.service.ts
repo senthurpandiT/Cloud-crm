@@ -9,17 +9,27 @@ import { HttpService } from './http.service';
 import { frequentVariables, languages, Roles } from '../Interfaces/roles';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
+
+
+  private dataSubject = new Subject<string>();
+  data$ = this.dataSubject.asObservable();
+
+  updateData(newValue: string) {
+    this.dataSubject.next(newValue);
+  }
+
+  pathRouter = window.location.pathname
   userDetails: any;
   LOGIN: any;
   languageList: any;
   selectedFlag = '';
   selectedLang: selectedLanguage | undefined;
-  rolebased: string = '';
 
   constructor(
     private errorHandler: ErrorHandlerService,
@@ -35,12 +45,52 @@ export class CommonService {
         const status: any = response.status;
         if (status.code == 200) {
           this.LOGIN = response.data.HOME;
+          this.updateData(langCode ? langCode : '');
+          if (this.userDetails && this.userDetails?.privilage && this.userDetails?.privilage.length > 0) {
+            let privilage = this.userDetails?.privilage
+            console.log(privilage);
+
+            privilage = this.removeObjectsWithAllZeroActions(
+              privilage
+            );
+
+            privilage = this.filterByLanguage(privilage, langCode)
+            this.LOGIN.PRIVILAGES = privilage
+            console.log(this.LOGIN);
+
+          }
+
         }
       },
       error: (err) => {
         this.errorHandler.handleError(err);
       },
       complete: () => { },
+    });
+  }
+
+
+  filterByLanguage(data: Array<any>, languageCode: string | undefined) {
+    if (!languageCode) return;
+
+    const filterProperties = (item: any) => {
+      const filteredItem: any = { ...item };
+      Object.keys(filteredItem).forEach((key) => {
+        if (!['Rp', 'submenu', 'type', 'icon', 'id', 'module_name', 'order_number', 'parent_id', 'front_router'].includes(key) && key !== languageCode) {
+          delete filteredItem[key];
+        }
+      });
+      filteredItem.module_name = filteredItem[languageCode];
+      return filteredItem;
+    };
+
+    return data.map(module => {
+      const filteredModule = filterProperties(module);
+
+      if (filteredModule.submenu) {
+        filteredModule.submenu = filteredModule.submenu.map(filterProperties);
+      }
+      return filteredModule;
     });
   }
 
@@ -104,15 +154,9 @@ export class CommonService {
           if (item.submenu) {
             item.submenu = this.removeObjectsWithAllZeroActions(item.submenu);
           }
-
-          if (this.userDetails) {
-            this.rolebased = this.userDetails?.role;
-          } else {
-          }
-
-          if (
-            this.rolebased != Roles.Admin &&
-            this.rolebased != Roles.ProjectManager
+          if (this.userDetails && this.userDetails?.role &&
+            this.userDetails?.role != Roles.Admin &&
+            this.userDetails?.role != Roles.ProjectManager
           ) {
             if (
               item.Rp === null &&

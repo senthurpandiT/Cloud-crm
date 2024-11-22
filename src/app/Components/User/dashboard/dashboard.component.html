@@ -1,1 +1,303 @@
-<p>dashboard works!</p>
+<div class="container-xxl">
+  <div
+    *ngIf="
+      common.userDetails?.role != 'Installer' &&
+      common.userDetails?.role != 'Technician' &&
+      common.userDetails?.role != 'Partner Admin'
+    "
+    class="row dashboard"
+  >
+    <div class="col mb-3">
+      <a class="card" [routerLink]="['/project-list']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-success">
+                <i class="fa-solid fa-folder-open"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.PROJECT?.PROJECT_LIST }}</h6>
+              <h4 class="text-success m-0">{{ dashboard?.Project }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col mb-3">
+      <a class="card" [routerLink]="['/task-management']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-danger">
+                <i class="fa-solid fa-layer-group"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.EXTRA?.TASKS }}</h6>
+              <h4 class="mb-0 text-danger">{{ dashboard?.Task }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col mb-3">
+      <a class="card" [routerLink]="['/employee-list']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-primary">
+                <i class="fa-solid fa-user-group"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.EMPLOYEE?.EMPLOYEE_LIST }}</h6>
+              <h4 class="text-secondary m-0">{{ dashboard?.empolyee }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col mb-3">
+      <a class="card" [routerLink]="['/customer-list']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-warning">
+                <i class="fa-people-group fa-solid"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.CUSTOMER?.CUSTOMER_LIST }}</h6>
+              <h4 class="text-warning m-0">{{ dashboard?.customers }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col mb-3">
+      <a class="card" [routerLink]="['/partners']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-info">
+                <i class="fa-building fa-solid"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.SERVICE?.Partners }}</h6>
+              <h4 class="text-info m-0">{{ dashboard?.partners }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 
+    rolebased div element -->
+
+  <div
+    *ngIf="
+      common.userDetails?.role == 'Installer' ||
+      common.userDetails?.role == 'Technician' ||
+      common.userDetails?.role == 'Partner Admin'
+    "
+    class="row dashboard"
+  >
+    <div class="col-3 mb-3">
+      <a class="card" [routerLink]="['/project-list']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-success">
+                <i class="fa-solid fa-folder-open"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.PROJECT?.PROJECT_LIST }}</h6>
+              <h4 class="text-success m-0">{{ dashboard?.Project }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-3 mb-3">
+      <a class="card" [routerLink]="['/task-management']">
+        <div class="card-body p-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial rounded bg-label-danger">
+                <i class="fa-solid fa-layer-group"></i>
+              </span>
+            </div>
+            <div>
+              <h6 class="mb-2">{{ common.LOGIN?.EXTRA?.TASKS }}</h6>
+              <h4 class="mb-0 text-danger">{{ dashboard?.Task }}</h4>
+            </div>
+            <span class="ms-auto me-2">
+              <i class="fa-solid fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 
+    rolebased div element -->
+
+  <div class="card">
+    <h4 class="card-header p-2">
+      {{ common.LOGIN?.DASHBOARD?.TASK_IN_PROGRESS | translate }}
+    </h4>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-striped">
+        <thead>
+          <tr>
+            <th class="w-40">
+              {{ common.LOGIN?.DASHBOARD?.TASK_TITLE }}
+            </th>
+            <th class="w-10">
+              {{ common.LOGIN?.EXTRA?.PROJECTNO }}
+            </th>
+            <th class="w-40">
+              {{ common.LOGIN?.PROJECT?.PROJECT_NAME }}
+            </th>
+            <th style="width: 15%">
+              {{ common.LOGIN?.DASHBOARD?.TASK_IN_PROGRESS }}
+            </th>
+
+            <th class="w-10">
+              {{ common.LOGIN?.MAIN?.STATUS }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="table-border-bottom-0">
+          <tr
+            class="text-center"
+            *ngIf="dashboard?.Taskdata && dashboard?.Taskdata.length === 0"
+          >
+            <td colspan="9">{{ common.LOGIN?.VALUES?.NO_DATA }}</td>
+          </tr>
+          <ng-container
+            *ngIf="dashboard?.Taskdata && dashboard?.Taskdata.length != 0"
+          >
+            <tr *ngFor="let Task of dashboard?.Taskdata">
+              <td
+                class="actLink"
+                [title]="Task.task_name.length > 15 ? Task.task_name : ''"
+              >
+                <!-- <td
+                class="actLink"
+                (click)="showDetails(Task)"
+                [title]="Task.task_name.length > 15 ? Task.task_name : ''"
+              > -->
+                {{ Task.task_name }}
+              </td>
+
+              <td *ngIf="common.userDetails?.type === '1'" class="actLink">
+                <!-- <td
+                *ngIf="type === '1'"
+                class="actLink"
+                (click)="showdetails(Task)"
+              > -->
+                {{
+                  Task?.project_number != null &&
+                  Task?.project_number != "" &&
+                  Task?.project_number != undefined
+                    ? ("000000" + Task?.project_number).slice(-6)
+                    : ""
+                }}
+              </td>
+              <td *ngIf="common.userDetails?.type === '2'" class="">
+                {{
+                  Task?.project_number != null &&
+                  Task?.project_number != "" &&
+                  Task?.project_number != undefined
+                    ? ("000000" + Task?.project_number).slice(-6)
+                    : ""
+                }}
+              </td>
+              <td
+                class=""
+                [title]="Task.project_name.length > 15 ? Task.project_name : ''"
+              >
+                {{ Task.project_name }}
+              </td>
+              <td>
+                <div class="position-relative">
+                  <div class="progress w-100">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      [style.width]="Task?.completion_percentage + '%'"
+                      [attr.aria-valuenow]="Task?.completion_percentage"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      [ngClass]="{
+                        'bg-danger': Task?.completion_percentage < 30,
+                        'bg-warning':
+                          Task?.completion_percentage >= 30 &&
+                          Task?.completion_percentage < 70,
+                        'bg-success': Task?.completion_percentage >= 70
+                      }"
+                    ></div>
+                    <span
+                      class="fw-bold ms-auto position-absolute text-center w-100"
+                      >{{
+                        Task?.completion_percentage
+                          ? Task?.completion_percentage + "%"
+                          : "0" + "%"
+                      }}</span
+                    >
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span
+                  [title]="getStatusValue(Task.status)"
+                  [ngClass]="[
+                    getStatusClass(Task.status),
+                    isStatusEmpty(Task.status) ? 'empty-status-class' : ''
+                  ]"
+                  class="badge rounded-pill"
+                >
+                  {{ getStatusValue(Task.status) }}
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div
+      *ngIf="dashboard?.Taskdata && dashboard?.Taskdata.length != 0"
+      class="card-footer d-flex justify-content-end"
+    >
+      <a [routerLink]="['/task-management']" class="btn btn-sm btn-primary">
+        {{ common.LOGIN?.EXTRA?.MORE }}
+        <span class="ps-2"><i class="fa-solid fa-chevron-right"></i></span>
+      </a>
+    </div>
+  </div>
+</div>

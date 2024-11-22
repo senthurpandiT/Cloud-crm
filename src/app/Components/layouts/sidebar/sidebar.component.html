@@ -18,12 +18,12 @@
   <ul id="menu-scroll" class="menu-inner py-1 pt-4 sidescroll">
     <li
       class="menu-item"
-      *ngFor="let menu of privilage"
+      *ngFor="let menu of common?.LOGIN?.PRIVILAGES"
       [ngClass]="{ open: menu.isOpen }"
       [routerLinkActive]="['active']"
       data-bs-toggle="tooltip"
       data-bs-placement="top"
-      title="{{ menu?.common?.selectedLang?.code }}"
+      title="{{ menu.module_name }}"
       (click)="linkClicked()"
     >
       <a
@@ -35,7 +35,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="menu-icon tf-icons {{ menu.icon }}"></i>
-        <span>{{ menu?.common?.selectedLang?.code }}</span>
+        <span>{{ menu.module_name }}</span>
       </a>
 
       <ul
@@ -47,7 +47,7 @@
           class="menu-item"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          title="{{ subMenu?.common?.selectedLang?.code }}"
+          title="{{ subMenu?.module_name }}"
           *ngFor="let subMenu of menu.submenu"
           [ngClass]="{ open: subMenu.isOpen }"
           [routerLinkActive]="['active']"
@@ -61,12 +61,12 @@
             (click)="toggleSubMenu(subMenu)"
           >
             <i class="menu-icon tf-icons {{ subMenu.icon }}"></i>
-            <span>{{ subMenu?.common?.selectedLang?.code }}</span>
+            <span>{{ subMenu?.module_name }}</span>
           </a>
         </li>
       </ul>
     </li>
-    <ng-container *ngFor="let menu of archive">
+    <!-- <ng-container *ngFor="let menu of archive">
       <li
         *ngIf="
           common.userDetails?.role === Roles.Admin ||
@@ -121,6 +121,6 @@
           </li>
         </ul>
       </li>
-    </ng-container>
+    </ng-container> -->
   </ul>
 </aside>

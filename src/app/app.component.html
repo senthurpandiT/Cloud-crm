@@ -4,7 +4,9 @@
   [ngClass]="{
     'light-style layout-navbar-fixed layout-menu-fixed layout-compact':
       authService.geItem('USER_TYPE') &&
-      authService.geItem('USER_TYPE') == 'User'
+      authService.geItem('USER_TYPE') == Roles.User &&
+      routerPath != '/' &&
+      routerPath != '/login'
   }"
 >
   <div class="layout-wrapper layout-content-navbar">
@@ -12,17 +14,20 @@
       <app-sidebar
         *ngIf="
           authService.geItem('USER_TYPE') &&
-          authService.geItem('USER_TYPE') == 'User'
+          authService.geItem('USER_TYPE') == Roles.User &&
+          routerPath != '/' &&
+          routerPath != '/login'
         "
       />
       <div class="layout-page">
         <app-header
           *ngIf="
             authService.geItem('USER_TYPE') &&
-            authService.geItem('USER_TYPE') == 'User'
+            authService.geItem('USER_TYPE') == Roles.User &&
+            routerPath != '/' &&
+            routerPath != '/login'
           "
         />
-
         <div class="content-wrapper position-relative">
           <router-outlet></router-outlet>
           <div class="content-backdrop fade"></div>

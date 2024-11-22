@@ -56,4 +56,16 @@ export class HttpService {
       data
     );
   }
+
+  dashboardlist(data: any) {
+    return this.http.post<ApiResponse>(`${environment.apiUrl}${this.appGlobals.urls.DASHBOARD}`, data);
+  }
+
+  statusList(status: any) {
+    return this.http.post<ApiResponse>(`${environment.apiUrl}${this.appGlobals.urls.STATUS_LIST}`
+      ,
+      status
+    );
+  }
+
 }

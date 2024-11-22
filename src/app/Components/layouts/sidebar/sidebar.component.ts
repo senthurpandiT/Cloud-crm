@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
 import { frequentVariables, Roles, routePath } from '../../../Interfaces/roles';
+import { selectedLanguage } from '../../../Interfaces/validation-interfaces';
+import { AuthService } from '../../../Authentication/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +14,7 @@ import { frequentVariables, Roles, routePath } from '../../../Interfaces/roles';
   styles: ''
 })
 export class SidebarComponent {
-
+  selectedLang: string = '';
   privilage: Array<any> = []
   logoUrl: string = frequentVariables.logoUrl
   routerRedirect = routePath
@@ -53,14 +55,14 @@ export class SidebarComponent {
       ],
     },
   ];
-  constructor(public common: CommonService) { }
+  constructor(public common: CommonService, private authService: AuthService) { }
 
   async ngOnInit() {
-    this.privilage = await this.common.userDetails?.privilage
-    const selectLang = await this.common.selectedLang
-    console.log(selectLang, 'this.privilage');
+    let privilage = this.common.userDetails?.privilage;
+    this.privilage = this.common.removeObjectsWithAllZeroActions(
+      privilage
+    );
   }
-
 
   getRouterLink() {
 
@@ -73,6 +75,7 @@ export class SidebarComponent {
     // this.fn.searchData = {};
     // console.log(this.fn.searchData);
   }
+
   toggleMenu(clickedMenu: any): void {
 
     let splitUrl2 = window.location.pathname.split('/')[1];
