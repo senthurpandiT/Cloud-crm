@@ -3,6 +3,7 @@ import { SignInComponent } from './Gateway/sign-in/sign-in.component';
 import { ForgetPasswordComponent } from './Gateway/forget-password/forget-password.component';
 import { SignUpComponent } from './Gateway/sign-up/sign-up.component';
 import { DashboardComponent } from './Components/User/dashboard/dashboard.component';
+import { ChatComponent } from './chatModule/chat/chat.component';
 
 export const routes: Routes = [
   // { path: '**', redirectTo: 'login', pathMatch: 'full' },
@@ -15,6 +16,11 @@ export const routes: Routes = [
     path: 'login',
     component: SignInComponent, data:
       { animation: 'loginPage' }
+  },
+  {
+    path: 'chat',
+    component: ChatComponent, data:
+      { animation: 'chatpage' }
   },
   {
     path: 'forgetpassword',
