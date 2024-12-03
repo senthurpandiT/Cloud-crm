@@ -4,99 +4,138 @@
 </div>
 
 <!-- Contact Box -->
-<div
-  class="chat-box"
-  *ngIf="isContactBoxVisible"
-  [ngStyle]="{ visibility: contactBoxVisibility }"
->
-  <div class="chat-box-header pb-0">
-    <nav>
-      <div class="nav nav-tabs px-2" id="nav-tab" role="tablist">
-        <div
-          class="nav-link active"
-          id="nav-home-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#nav-home"
-          type="button"
-          role="tab"
-          aria-controls="nav-home"
-          aria-selected="true"
-        >
-          Home
-        </div>
-        <div
-          class="nav-link"
-          id="nav-profile-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#nav-profile"
-          type="button"
-          role="tab"
-          aria-controls="nav-profile"
-          aria-selected="false"
-        >
-          Profile
+<div class="chat-container">
+  <div
+    class="chat-box"
+    *ngIf="isContactBoxVisible"
+    [ngStyle]="{ visibility: contactBoxVisibility }"
+  >
+    <div>
+      <div class="chat-box-header pb-0 d-flex justify-content-between">
+        <nav>
+          <div class="nav nav-tabs px-2" id="nav-tab" role="tablist">
+            <div
+              class="nav-link active"
+              id="nav-home-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-home"
+              type="button"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true"
+            >
+              People
+            </div>
+            <div
+              class="nav-link"
+              id="nav-profile-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-profile"
+              type="button"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false"
+            >
+              Group
+            </div>
+          </div>
+        </nav>
+        <div class="h-100 d-flex align-items-center">
+          <span (click)="toggleSearchBox()"
+            ><i class="fa fa-search mx-3 cursor-pointer"></i
+          ></span>
+          <span (click)="toggleContactBox()">
+            <i style="font-size: 19px" class="fa mx-3 cursor-pointer"
+              >&#xf00d;</i
+            >
+          </span>
         </div>
       </div>
-    </nav>
-    <p (click)="toggleContactBox()"><i class="fa fa-times"></i></p>
-  </div>
 
-  <div class="contact-box-body-list">
-    <div class="w-100" *ngFor="let messager of messengers">
-      <div class="contact-box-body" (click)="openChatBox()">
-        <div class="avatar avatar-sm me-3">
-          <img class="rounded-circle" [src]="messager.profileurl" />
+      <div class="contact-box-body-list">
+        <div class="searchInput" [@collapse]="collapse">
+          <div
+            class="flex-grow-1 p-2 input-group input-group-merge rounded-pill mb-2"
+          >
+            <span id="basic-addon-search31" class="input-group-text"
+              ><i class="bx bx-search"></i></span
+            ><input
+              type="text"
+              aria-label="Search..."
+              aria-describedby="basic-addon-search31"
+              class="form-control chat-search-input ng-untouched ng-pristine ng-valid"
+              placeholder="Search"
+            />
+          </div>
         </div>
-        <div>
-          <h6 class="m-0">{{ messager.name }}</h6>
-          <small>{{ messager.role }}</small>
+        <div [@listAnimation]="messengers.length">
+          <div class="w-100 pt-1 px-1" *ngFor="let messager of messengers">
+            <div class="contact-box-body" (click)="openChatBox(messager)">
+              <div class="avatar avatar-sm me-3">
+                <img class="rounded-circle" [src]="messager.profileurl" />
+              </div>
+              <div>
+                <h6 class="m-0">{{ messager.name }}</h6>
+                <small>{{ messager.role }}</small>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Chat Box -->
-<div
-  class="chat-box"
-  *ngIf="isChatBoxVisible"
-  [ngStyle]="{ visibility: chatBoxVisibility }"
->
-  <div class="chat-box-header align-items-center">
-    <i
-      class="bx bx-arrow-back cursor-pointer mx-3"
-      (click)="closeChatBox()"
-    ></i>
-    <h3>Message Us</h3>
-  </div>
-
-  <div class="chat-box-body">
-    <div
-      *ngFor="let message of messages"
-      [ngClass]="{ 'chat-header-send': message.type === 'send' }"
-    >
+    <ng-container *ngFor="let chat of activeChats; let i = index">
       <div
-        [ngClass]="{
-          'chat-box-body-send': message.type === 'send',
-          'chat-box-body-receive': message.type === 'receive'
+        class="active-chats"
+        id="{{ i }}"
+        [ngClass]="{ 'active-two': i > 0 }"
+        [ngStyle]="{
+          right:
+            i > activetabCount - 1
+              ? activetabCount * 415 + 'px'
+              : (i + 1) * 415 + 'px'
         }"
       >
-        <p>{{ message.text }}</p>
-        <span>{{ message.time }}</span>
-      </div>
-    </div>
-  </div>
+        <div class="chat-list-box">
+          <div class="chat-box-header align-items-center">
+            <i
+              class="bx bx-arrow-back cursor-pointer mx-3"
+              (click)="closeChatBox(i)"
+            ></i>
+            <h3>{{ chat.Userdata.name }}</h3>
+          </div>
 
-  <div class="chat-box-footer">
-    <button id="addExtra">
-      <i class="fa fa-plus"></i>
-    </button>
-    <input
-      [(ngModel)]="newMessage"
-      placeholder="Enter Your Message"
-      type="text"
-      (keyup.enter)="sendMessage()"
-    />
-    <i class="send far fa-paper-plane" (click)="sendMessage()"></i>
+          <div class="chat-box-body">
+            <div
+              *ngFor="let message of chat.messagelist"
+              [ngClass]="{ 'chat-header-send': message.type === 'send' }"
+            >
+              <div
+                [ngClass]="{
+                  'chat-box-body-send': message.type === 'send',
+                  'chat-box-body-receive': message.type === 'receive'
+                }"
+              >
+                <p>{{ message.text }}</p>
+                <span>{{ message.time }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-box-footer">
+            <button id="addExtra">
+              <i class="fa fa-plus"></i>
+            </button>
+            <input
+              [(ngModel)]="newMessage"
+              placeholder="Enter Your Message"
+              type="text"
+              (keyup.enter)="sendMessage()"
+            />
+            <i class="send far fa-paper-plane" (click)="sendMessage()"></i>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
