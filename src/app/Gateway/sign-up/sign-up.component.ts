@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonService } from '../../Services/common.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -14,19 +13,11 @@ import {
 } from '@angular/forms';
 import { ProgressBarService } from '../../Services/progress.service';
 import { ConfirmPasswordValidator } from '../../Authentication/validation';
-import { LanguageComponent } from '../../Components/Shared/language.component';
-import { frequentVariables, routePath } from '../../Interfaces/roles';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [
-    RouterLink,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    LanguageComponent,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './sign-up.component.html',
   styles: '',
 })
@@ -34,14 +25,11 @@ export class SignUpComponent {
   signUpForm!: FormGroup;
   passwordHidden: boolean = true;
   confirmPasswordHidden: boolean = true;
-  logoUrl: string = frequentVariables.logoUrl;
-  routerRedirect = routePath
-
+  logoUrl: any;
   constructor(
-    public common: CommonService,
     private fb: FormBuilder,
     public progressBarService: ProgressBarService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.signUpForm = this.fb.group(
@@ -100,10 +88,8 @@ export class SignUpComponent {
     return this.signUpForm.get('acceptTerms')!;
   }
 
-
   valiadateReturn(value: AbstractControl) {
-    return value.invalid &&
-      (value.dirty || value.touched)
+    return value.invalid && (value.dirty || value.touched);
   }
 
   registerSubmit() {
